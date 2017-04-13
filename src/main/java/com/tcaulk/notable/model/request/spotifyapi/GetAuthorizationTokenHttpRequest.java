@@ -1,17 +1,17 @@
 package com.tcaulk.notable.model.request.spotifyapi;
 
 import com.tcaulk.notable.model.authorization.AuthorizationType;
-import com.tcaulk.notable.model.request.httpbase.BasePostRequest;
+import com.tcaulk.notable.model.request.httpbase.BasePostHttpRequest;
 import org.springframework.http.MediaType;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-public class GetAuthorizationTokenRequest extends BasePostRequest<MultiValueMap<String, String>> {
+public class GetAuthorizationTokenHttpRequest extends BasePostHttpRequest<MultiValueMap<String, String>> {
 
     private static final String GRANT_TYPE_KEY = "grant_type";
     private static final String GRANT_TYPE_VALUE = "client_credentials";
 
-    public GetAuthorizationTokenRequest(String accessToken) {
+    public GetAuthorizationTokenHttpRequest(String accessToken) {
         super(accessToken, AuthorizationType.BASIC);
     }
 

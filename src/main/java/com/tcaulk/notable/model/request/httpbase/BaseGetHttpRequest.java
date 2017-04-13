@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.stream.IntStream;
 
-public abstract class BaseGetRequest<T> extends BaseRequest<T> {
+public abstract class BaseGetHttpRequest<T> extends BaseHttpRequest<T> {
 
     private BiFunction<Integer, Integer, String> urlStartProcessor = (index, size) -> {
         return index == 0 ? "?" : "";
@@ -22,7 +22,7 @@ public abstract class BaseGetRequest<T> extends BaseRequest<T> {
 
     private Map<String, String> urlVariables = new HashMap<>();
 
-    public BaseGetRequest(String accessToken, AuthorizationType authorizationType) {
+    public BaseGetHttpRequest(String accessToken, AuthorizationType authorizationType) {
         super(accessToken, authorizationType);
     }
 

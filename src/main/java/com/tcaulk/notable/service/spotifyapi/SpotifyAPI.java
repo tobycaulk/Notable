@@ -1,13 +1,10 @@
 package com.tcaulk.notable.service.spotifyapi;
 
 import com.tcaulk.notable.model.authorization.AuthorizationCachePackage;
-import com.tcaulk.notable.model.authorization.AuthorizationToken;
 import com.tcaulk.notable.model.recommendations.SpotifyRecommendationSeed;
 import com.tcaulk.notable.model.request.notableapi.GetRecommendationsRequest;
-import com.tcaulk.notable.model.request.notableapi.base.BaseNotableRequest;
-import com.tcaulk.notable.model.request.spotifyapi.GetSpotifyRecommendationsRequest;
+import com.tcaulk.notable.model.request.spotifyapi.GetSpotifyRecommendationsHttpRequest;
 import com.tcaulk.notable.model.response.httpbase.BaseResponse;
-import com.tcaulk.notable.model.response.notableapi.base.BaseNotableResponse;
 import com.tcaulk.notable.model.response.spotifyapi.GetSpotifyRecommendationsResponse;
 import com.tcaulk.notable.service.http.HttpClient;
 import com.tcaulk.notable.service.spotifyapi.authorization.SpotifyAuthorization;
@@ -26,26 +23,18 @@ public class SpotifyAPI {
         this.spotifyAuthorization = spotifyAuthorization;
     }
 
-    public BaseNotableResponse<GetSpotifyRecommendationsResponse> getSpotifyRecommendations(BaseNotableRequest<GetRecommendationsRequest> request) {
-        BaseNotableResponse<GetSpotifyRecommendationsResponse> response = new BaseNotableResponse<>();
-
-        AuthorizationCachePackage authorizationCachePackage = spotifyAuthorization.getAuthorizationCachePackage(request.getAuthorizationCacheKey());
+    public GetSpotifyRecommendationsResponse getSpotifyRecommendations(GetRecommendationsRequest request, AuthorizationCachePackage authorizationCachePackage) {
+        GetSpotifyRecommendationsResponse response = new GetSpotifyRecommendationsResponse();
 
         SpotifyRecommendationSeed genreSeed = new SpotifyRecommendationSeed("seed_genres", "pop");
         SpotifyRecommendationSeed marketSeed = new SpotifyRecommendationSeed("market", "US");
 
-        GetSpotifyRecommendationsRequest recommendationsRequest = new GetSpotifyRecommendationsRequest(
+        GetSpotifyRecommendationsHttpRequest recommendationsRequest = new GetSpotifyRecommendationsHttpRequest(
                 authorizationCachePackage.authorizationToken.getAccessToken(),
                 genreSeed,
                 marketSeed
         );
-
-        BaseResponse<GetSpotifyRecommendationsResponse> recommendationsResponse
-                = HttpClient.handleRequest(recommendationsRequest, GetSpotifyRecommendationsResponse.class);
-        if(recommendationsResponse != null) {
-            response.setAuthorizationCacheKey(authorizationCachePackage.authorizationCacheKey.getKey());
-            response.setPayload(recommendationsResponse.getPayload());
-        }
+        response = HttpClient.handleRequest(recommendationsRequest, GetSpotifyRecommendationsResponse.class).getPayload();
 
         return response;
     }

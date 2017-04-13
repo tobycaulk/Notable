@@ -3,9 +3,9 @@ package com.tcaulk.notable.model.request.httpbase;
 import com.tcaulk.notable.model.authorization.AuthorizationType;
 import org.springframework.http.HttpMethod;
 
-public abstract class BasePostRequest<T> extends BaseRequest<T> {
+public abstract class BasePostHttpRequest<T> extends BaseHttpRequest<T> {
 
-    public BasePostRequest(String accessToken, AuthorizationType authorizationType) {
+    public BasePostHttpRequest(String accessToken, AuthorizationType authorizationType) {
         super(accessToken, authorizationType);
     }
 

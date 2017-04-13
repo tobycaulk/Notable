@@ -17,14 +17,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class NotableController {
 
     private SpotifyAPI spotifyAPI;
+    private ControllerUtil controllerUtil;
 
 	@Autowired
-	public NotableController(SpotifyAPI spotifyAPI) {
+	public NotableController(SpotifyAPI spotifyAPI, ControllerUtil controllerUtil) {
         this.spotifyAPI = spotifyAPI;
+        this.controllerUtil = controllerUtil;
     }
 
     @RequestMapping(value="/recommendations", method=RequestMethod.POST)
 	public @ResponseBody BaseNotableResponse<GetSpotifyRecommendationsResponse> getRecommendations(@RequestBody BaseNotableRequest<GetRecommendationsRequest> request) {
-        return spotifyAPI.getSpotifyRecommendations(request);
+	    return controllerUtil.processRequest(request, spotifyAPI::getSpotifyRecommendations);
 	}
 }

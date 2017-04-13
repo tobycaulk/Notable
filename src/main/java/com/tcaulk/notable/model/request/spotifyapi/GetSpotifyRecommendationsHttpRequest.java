@@ -2,14 +2,14 @@ package com.tcaulk.notable.model.request.spotifyapi;
 
 import com.tcaulk.notable.model.authorization.AuthorizationType;
 import com.tcaulk.notable.model.recommendations.SpotifyRecommendationSeed;
-import com.tcaulk.notable.model.request.httpbase.BaseGetRequest;
+import com.tcaulk.notable.model.request.httpbase.BaseGetHttpRequest;
 import org.springframework.http.MediaType;
 
 import java.util.Arrays;
 
-public class GetSpotifyRecommendationsRequest extends BaseGetRequest<Void> {
+public class GetSpotifyRecommendationsHttpRequest extends BaseGetHttpRequest<Void> {
 
-    public GetSpotifyRecommendationsRequest(String accessToken, SpotifyRecommendationSeed... spotifyRecommendationSeeds) {
+    public GetSpotifyRecommendationsHttpRequest(String accessToken, SpotifyRecommendationSeed... spotifyRecommendationSeeds) {
         super(accessToken, AuthorizationType.BEARER);
 
         Arrays.asList(spotifyRecommendationSeeds).stream().forEach(seed -> {

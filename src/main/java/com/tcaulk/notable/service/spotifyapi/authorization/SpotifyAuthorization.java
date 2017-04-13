@@ -3,7 +3,7 @@ package com.tcaulk.notable.service.spotifyapi.authorization;
 import com.tcaulk.notable.model.authorization.AuthorizationCacheKey;
 import com.tcaulk.notable.model.authorization.AuthorizationCachePackage;
 import com.tcaulk.notable.model.authorization.AuthorizationToken;
-import com.tcaulk.notable.model.request.spotifyapi.GetAuthorizationTokenRequest;
+import com.tcaulk.notable.model.request.spotifyapi.GetAuthorizationTokenHttpRequest;
 import com.tcaulk.notable.model.response.httpbase.BaseResponse;
 import com.tcaulk.notable.service.http.HttpClient;
 import org.apache.commons.codec.binary.Base64;
@@ -51,7 +51,7 @@ public class SpotifyAuthorization {
     }
 
     private AuthorizationToken requestAuthorizationToken() {
-        GetAuthorizationTokenRequest request = new GetAuthorizationTokenRequest(new String(Base64.encodeBase64(new String(clientId + ":" + clientSecret).getBytes())));
+        GetAuthorizationTokenHttpRequest request = new GetAuthorizationTokenHttpRequest(new String(Base64.encodeBase64(new String(clientId + ":" + clientSecret).getBytes())));
         BaseResponse<AuthorizationToken> response = HttpClient.handleRequest(request, AuthorizationToken.class);
 
         return response.getPayload();

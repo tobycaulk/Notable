@@ -6,13 +6,13 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 
-public abstract class BaseRequest<T> {
+public abstract class BaseHttpRequest<T> {
 
     private static final String AUTHORIZATION_HEADER_KEY = "Authorization";
 
     private HttpHeaders httpHeaders = new HttpHeaders();
 
-    public BaseRequest(String accessToken, AuthorizationType authorizationType) {
+    public BaseHttpRequest(String accessToken, AuthorizationType authorizationType) {
         httpHeaders.setContentType(getContentType());
         httpHeaders.set(AUTHORIZATION_HEADER_KEY, authorizationType.tokenType + " " + accessToken);
     }

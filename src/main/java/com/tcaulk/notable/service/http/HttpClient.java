@@ -5,8 +5,8 @@ import java.util.Map;
 import java.util.UUID;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.tcaulk.notable.model.request.httpbase.BaseGetRequest;
-import com.tcaulk.notable.model.request.httpbase.BaseRequest;
+import com.tcaulk.notable.model.request.httpbase.BaseGetHttpRequest;
+import com.tcaulk.notable.model.request.httpbase.BaseHttpRequest;
 import com.tcaulk.notable.model.response.httpbase.BaseResponse;
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpEntity;
@@ -26,7 +26,7 @@ public class HttpClient {
             .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true)
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-	public static <R> BaseResponse<R> handleRequest(BaseRequest<?> request, Class<R> responseType) {
+	public static <R> BaseResponse<R> handleRequest(BaseHttpRequest<?> request, Class<R> responseType) {
 	    BaseResponse<R> response = new BaseResponse<R>();
 
 	    String requestId = generateRequestId();
@@ -40,7 +40,7 @@ public class HttpClient {
             ResponseEntity<String> responseEntity = null;
             switch (request.getHttpMethod()) {
                 case GET:
-                    BaseGetRequest<?> getRequest = (BaseGetRequest<?>) request;
+                    BaseGetHttpRequest<?> getRequest = (BaseGetHttpRequest<?>) request;
                     responseEntity = get(getRequest.getExpandedUrl(), request.getHttpEntity(), getRequest.getUrlVariables());
                     break;
                 case POST:
