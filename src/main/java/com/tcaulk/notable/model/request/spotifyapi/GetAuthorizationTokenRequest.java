@@ -1,8 +1,7 @@
 package com.tcaulk.notable.model.request.spotifyapi;
 
-import com.tcaulk.notable.model.authorization.AuthorizationToken;
 import com.tcaulk.notable.model.authorization.AuthorizationType;
-import com.tcaulk.notable.model.request.base.BasePostRequest;
+import com.tcaulk.notable.model.request.httpbase.BasePostRequest;
 import org.springframework.http.MediaType;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;

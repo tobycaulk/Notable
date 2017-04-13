@@ -5,9 +5,9 @@ import java.util.Map;
 import java.util.UUID;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.tcaulk.notable.model.request.base.BaseGetRequest;
-import com.tcaulk.notable.model.request.base.BaseRequest;
-import com.tcaulk.notable.model.response.base.BaseResponse;
+import com.tcaulk.notable.model.request.httpbase.BaseGetRequest;
+import com.tcaulk.notable.model.request.httpbase.BaseRequest;
+import com.tcaulk.notable.model.response.httpbase.BaseResponse;
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -27,7 +27,7 @@ public class HttpClient {
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
 	public static <R> BaseResponse<R> handleRequest(BaseRequest<?> request, Class<R> responseType) {
-	    BaseResponse<R> response = null;
+	    BaseResponse<R> response = new BaseResponse<R>();
 
 	    String requestId = generateRequestId();
 	    log.debug("Sending request with " +

@@ -1,4 +1,4 @@
-package com.tcaulk.notable.model.request.base;
+package com.tcaulk.notable.model.request.httpbase;
 
 import com.tcaulk.notable.model.authorization.AuthorizationType;
 import org.springframework.http.HttpEntity;

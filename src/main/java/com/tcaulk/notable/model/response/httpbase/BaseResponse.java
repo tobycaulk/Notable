@@ -1,4 +1,4 @@
-package com.tcaulk.notable.model.response.base;
+package com.tcaulk.notable.model.response.httpbase;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -7,6 +7,10 @@ public class BaseResponse<R> {
     private int errorCode;
     private String errorDescription;
     private R payload;
+
+    public BaseResponse() {
+        this(null);
+    }
 
     public BaseResponse(R payload) {
         this.payload = payload;
