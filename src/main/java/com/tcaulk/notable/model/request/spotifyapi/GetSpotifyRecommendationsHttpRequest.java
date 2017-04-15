@@ -6,13 +6,14 @@ import com.tcaulk.notable.model.request.httpbase.BaseGetHttpRequest;
 import org.springframework.http.MediaType;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class GetSpotifyRecommendationsHttpRequest extends BaseGetHttpRequest<Void> {
 
-    public GetSpotifyRecommendationsHttpRequest(String accessToken, SpotifyRecommendationSeed... spotifyRecommendationSeeds) {
+    public GetSpotifyRecommendationsHttpRequest(String accessToken, List<SpotifyRecommendationSeed> spotifyRecommendationSeeds) {
         super(accessToken, AuthorizationType.BEARER);
 
-        Arrays.asList(spotifyRecommendationSeeds).stream().forEach(seed -> {
+        spotifyRecommendationSeeds.stream().forEach(seed -> {
             addUrlVariable(seed.getProperty(), seed.getValue());
         });
     }

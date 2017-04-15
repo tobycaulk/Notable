@@ -1,30 +1,17 @@
 package com.tcaulk.notable.model.response.notableapi.base;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tcaulk.notable.model.error.NotableError;
 
 public class BaseNotableResponse<T> {
 
-    private int errorCode;
-    private String errorDescription;
+    private NotableError error;
     private String authorizationCacheKey;
     private T payload;
 
-    @JsonProperty("ErrorCode")
-    public int getErrorCode() {
-        return errorCode;
-    }
-
-    public void setErrorCode(int errorCode) {
-        this.errorCode = errorCode;
-    }
-
-    @JsonProperty("ErrorDescription")
-    public String getErrorDescription() {
-        return errorDescription;
-    }
-
-    public void setErrorDescription(String errorDescription) {
-        this.errorDescription = errorDescription;
+    @JsonProperty("Error")
+    public NotableError getError() {
+        return error;
     }
 
     @JsonProperty("AuthorizationCacheKey")
@@ -32,13 +19,17 @@ public class BaseNotableResponse<T> {
         return authorizationCacheKey;
     }
 
-    public void setAuthorizationCacheKey(String authorizationCacheKey) {
-        this.authorizationCacheKey = authorizationCacheKey;
-    }
-
     @JsonProperty("Payload")
     public T getPayload() {
         return payload;
+    }
+
+    public void setError(NotableError error) {
+        this.error = error;
+    }
+
+    public void setAuthorizationCacheKey(String authorizationCacheKey) {
+        this.authorizationCacheKey = authorizationCacheKey;
     }
 
     public void setPayload(T payload) {

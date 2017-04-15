@@ -7,7 +7,7 @@ public class BaseNotableRequest<T> {
     private String authorizationCacheKey;
     private T payload;
 
-    @JsonProperty("AuthorizationCacheKey")
+    @JsonProperty("AuthorizationKey")
     public String getAuthorizationCacheKey() {
         return authorizationCacheKey;
     }

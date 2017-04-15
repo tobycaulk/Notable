@@ -60,6 +60,8 @@ public class SpotifyAuthorization {
     public AuthorizationCachePackage getAuthorizationCachePackage(String cacheKey) {
         AuthorizationCachePackage authorizationCachePackage = null;
 
+        log.debug("Retrieving AuthorizationCachePackage for cacheKey[" + cacheKey + "]");
+
         AuthorizationToken authorizationToken = new AuthorizationToken();
         //First determine if there is already an authorization token cached for this cache key
         AuthorizationCacheKey authorizationCacheKey = findAuthorizationCacheKey(cacheKey);
@@ -67,31 +69,34 @@ public class SpotifyAuthorization {
         //This could either mean that the key sent in is invalid, or that someone accessing this API does not already
         //have a key and needs to generate one
         if(authorizationCacheKey == null) {
+            log.debug("No Authorization Token found for cacheKey[" + cacheKey + "], Requesting new Authorization Token from Spotify");
             //Request a new Authorization Token from spotify
-            AuthorizationToken requestedAuthorizationToken = requestAuthorizationToken();
-            if(requestedAuthorizationToken != null) {
+            authorizationToken = requestAuthorizationToken();
+            if(authorizationToken != null) {
                 //If a token has been successfully generated then cache it using a new cache key
-                AuthorizationCacheKey generatedAuthorizationCacheKey = generateAuthorizationCacheKey();
-                authorizationToken = requestedAuthorizationToken;
-                authorizationTokenCache.put(generatedAuthorizationCacheKey, authorizationToken);
-                authorizationCachePackage = new AuthorizationCachePackage(authorizationToken, generatedAuthorizationCacheKey);
+                authorizationCacheKey = generateAuthorizationCacheKey();
+                authorizationTokenCache.put(authorizationCacheKey, authorizationToken);
+                authorizationCachePackage = new AuthorizationCachePackage(authorizationToken, authorizationCacheKey);
+                log.debug("Received Authorization Token[" + authorizationToken.getAccessToken() + "] for cacheKey[" + authorizationCacheKey.getKey() + "]");
             }
         } else {
             //If the cache key is valid, retrieve the token corresponding to the key
             AuthorizationToken cachedAuthorizationToken = authorizationTokenCache.get(authorizationCacheKey);
             //Check to make sure the token hasn't expired
             if(isAuthorizationTokenValid(authorizationCacheKey, cachedAuthorizationToken)) {
+                log.debug("Authorization Token for cacheKey[" + cacheKey + "] is valid, returning AuthorizationCachePackage");
                 authorizationToken = cachedAuthorizationToken;
                 authorizationCachePackage = new AuthorizationCachePackage(authorizationToken, authorizationCacheKey);
             } else {
+                log.debug("Authorization Token for cacheKey[" + cacheKey + "] expired, requesting new Authorization Token");
                 //The token has expired, generate a new one and update the cache key's date field to indicate
                 //the time we cached the new key
-                AuthorizationToken requestedAuthorizationToken = requestAuthorizationToken();
-                if(requestedAuthorizationToken != null) {
-                    authorizationToken = requestedAuthorizationToken;
+                authorizationToken = requestAuthorizationToken();
+                if(authorizationToken != null) {
                     authorizationCacheKey.setCacheDate(new Date());
                     authorizationTokenCache.put(authorizationCacheKey, authorizationToken);
                     authorizationCachePackage = new AuthorizationCachePackage(authorizationToken, authorizationCacheKey);
+                    log.debug("Received Authorization Token[" + authorizationToken.getAccessToken() + "] for cacheKey[" + authorizationCacheKey.getKey() + "]");
                 }
             }
         }

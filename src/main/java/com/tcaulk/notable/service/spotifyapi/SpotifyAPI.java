@@ -26,13 +26,9 @@ public class SpotifyAPI {
     public GetSpotifyRecommendationsResponse getSpotifyRecommendations(GetRecommendationsRequest request, AuthorizationCachePackage authorizationCachePackage) {
         GetSpotifyRecommendationsResponse response = new GetSpotifyRecommendationsResponse();
 
-        SpotifyRecommendationSeed genreSeed = new SpotifyRecommendationSeed("seed_genres", "pop");
-        SpotifyRecommendationSeed marketSeed = new SpotifyRecommendationSeed("market", "US");
-
         GetSpotifyRecommendationsHttpRequest recommendationsRequest = new GetSpotifyRecommendationsHttpRequest(
                 authorizationCachePackage.authorizationToken.getAccessToken(),
-                genreSeed,
-                marketSeed
+                request.getSpotifyRecommendationSeeds()
         );
         response = HttpClient.handleRequest(recommendationsRequest, GetSpotifyRecommendationsResponse.class).getPayload();
 
